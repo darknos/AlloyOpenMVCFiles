@@ -1,0 +1,21 @@
+[
+    {
+        "id": "view",
+        "children":
+        [
+            {
+                "caption": "-",
+                "id": "alloy"
+            },
+            {
+                "caption": "Alloy",
+                "children": 
+                [
+                    {
+                        "caption": "Open MVC in new window", "command": "new_window_with_alloy_files"
+                    }   
+                ]
+            }
+        ]
+    }
+]
