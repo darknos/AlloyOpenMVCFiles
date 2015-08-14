@@ -53,10 +53,12 @@ class TiSwitchCommand(sublime_plugin.WindowCommand):
 		activeWindow = sublime.active_window();
 		activeView = activeWindow.active_view()
 		currentFile = activeView.file_name()
+		
+		if(currentFile is None):
+			return
+
 		switchType = kwargs["type"];
 		fileSwitchTo = translateToType(currentFile, switchType)
-		print(currentFile)
-		print(fileSwitchTo)
 
 		if not os.path.exists(fileSwitchTo) :
 			print("File does not exist");
