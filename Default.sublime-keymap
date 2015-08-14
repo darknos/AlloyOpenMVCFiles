@@ -1,0 +1,5 @@
+[
+   { "keys": ["super+shift+c"], "command": "ti_switch", "args": {"type": "controller"} },
+   { "keys": ["super+shift+v"], "command": "ti_switch", "args": {"type": "view"} },
+   { "keys": ["super+shift+s"], "command": "ti_switch", "args": {"type": "style"} }
+]
