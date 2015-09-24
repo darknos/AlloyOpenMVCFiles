@@ -1,8 +1,15 @@
 [
     {
-        "id": "view",
+        "id": "titanium",
+        "caption": "Titanium",
         "children":
         [
+            {
+                "caption": "Run",
+                "children": 
+                [  
+                ]
+            },
             {
                 "caption": "-",
                 "id": "alloy"
@@ -15,6 +22,10 @@
                         "caption": "Open MVC in new window", "command": "new_window_with_alloy_files"
                     }   
                 ]
+            },
+            {
+                "caption": "Generate Run Menu",
+                "command": "ti_generate_run_menu"
             }
         ]
     }

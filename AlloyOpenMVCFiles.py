@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, re, os, functools
+import sublime, sublime_plugin, re, os, functools, subprocess, json
 
 TYPES = { 
 			"controller" : { 
@@ -68,3 +68,45 @@ class TiSwitchCommand(sublime_plugin.WindowCommand):
 			activeWindow.focus_group(TYPES[switchType]["group"])
 		
 		activeWindow.open_file(fileSwitchTo)
+
+class TiGenerateRunMenuCommand(sublime_plugin.WindowCommand):
+	def run(self, *args, **kwargs):
+		text = "".join(subprocess.getoutput("instruments -s devices"))
+		device_list = re.split("\n", text);
+		devices = []
+		for device in device_list:
+			true_device = parse_device_string(device)
+			if true_device:
+				devices.append(true_device)
+
+		# for device in devices:
+		# 	#make menu here
+		package_path = os.path.join(sublime.packages_path(), "AlloyMVCFiles")
+		menu_json_path = package_path + "/Main.sublime-menu"
+		with open(menu_json_path, "r") as jsonFile:
+			data = json.load(jsonFile)
+		print("data", data)
+
+		menu = []
+
+		for device in devices:
+			print("opath:", data[0]['children'][0]['children'])
+			menu.append({'caption' : device['name'], 'command' : "ti_run" , "args" : {'uuid' : device['uuid']}})
+
+		data[0]['children'][0]['children'] = menu
+
+		with open(menu_json_path, "w") as jsonFile:
+			jsonFile.write(json.dumps(data))
+
+		print("package_path", package_path)
+		print("devices:", devices)
+
+def parse_device_string(str):
+		print(str)
+		match =  re.match(r"(.* \((.*)\)) \[([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})\]", str);
+		if match :
+			return {'uuid' : match.group(3), 'name': match.group(1), 'ios' : match.group(2)}
+	
+class TiRunCommand(sublime_plugin.WindowCommand):
+ 	def run(self, *args, **kwargs):
+ 		print('TI RUN:', kwargs)
